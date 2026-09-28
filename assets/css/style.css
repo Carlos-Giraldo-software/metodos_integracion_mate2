@@ -1,0 +1,204 @@
+/* ==========================================================================
+   style.css — estilos globales de toda la plataforma
+   Idea visual: hoja de papel cuadriculado (como un cuaderno de cálculo).
+   Es responsive: se adapta a celulares, tablets y computador.
+   ========================================================================== */
+
+/* ---------- Variables de color y tipografía (cámbialas aquí y cambia todo) ---------- */
+:root {
+  --papel: #f4f7f6;
+  --cuadricula: #d9e5e0;
+  --tinta: #14213d;
+  --tinta-suave: #4a5a72;
+  --azul: #1d4ed8;
+  --verde: #0f9d8a;
+  --verde-oscuro: #0b7a6b;
+  --naranja: #c2410c;
+  --borde: #c5d4ce;
+  --blanco: #ffffff;
+  --fuente-titulos: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --fuente-texto: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  color: var(--tinta);
+  line-height: 1.6;
+  background-color: var(--papel);
+  /* La cuadrícula del cuaderno: dos gradientes de líneas finas */
+  background-image:
+    linear-gradient(var(--cuadricula) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cuadricula) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
+  background: var(--tinta);
+  color: var(--blanco);
+}
+.cabecera a.marca {
+  font-family: var(--fuente-titulos);
+  font-size: 1.15rem;
+  color: var(--blanco);
+  text-decoration: none;
+}
+.cabecera select {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #6b7a99;
+  background: #1f2f52;
+  color: var(--blanco);
+  max-width: 100%;
+}
+
+/* ---------- Contenedores ---------- */
+main { max-width: 1040px; margin: 0 auto; padding: clamp(1rem, 4vw, 2.5rem); }
+
+h1, h2, h3 { font-family: var(--fuente-titulos); line-height: 1.2; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); margin: 0 0 0.5rem; }
+h2 { font-size: 1.5rem; margin-top: 2.2rem; }
+h3 { font-size: 1.15rem; margin: 0 0 0.4rem; }
+p, li { max-width: 72ch; }
+
+a { color: var(--azul); }
+:focus-visible { outline: 3px solid var(--naranja); outline-offset: 2px; }
+
+/* ---------- Portada ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 1rem 0 0.5rem;
+}
+.hero p.lema { font-size: 1.15rem; color: var(--tinta-suave); }
+.hero svg { width: 100%; height: auto; background: rgba(255,255,255,0.75); border: 1px solid var(--borde); border-radius: 10px; }
+
+.grupo-fase { margin-top: 2rem; }
+.grupo-fase p.nota { color: var(--tinta-suave); margin-top: 0; }
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+.tarjeta {
+  position: relative;
+  display: block;
+  padding: 1rem 1rem 1rem 3.4rem;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+.tarjeta:hover { border-color: var(--verde); }
+.tarjeta p { margin: 0 0 0.6rem; color: var(--tinta-suave); font-size: 0.95rem; }
+.tarjeta-num {
+  position: absolute;
+  left: 0.9rem; top: 0.9rem;
+  width: 1.8rem; height: 1.8rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--tinta); color: var(--blanco);
+  font-weight: 700; font-size: 0.9rem;
+}
+.tarjeta-pendiente { background: #fafcfb; }
+.tarjeta-pendiente .tarjeta-num { background: #8a97ad; }
+
+.insignia { display: inline-block; font-size: 0.8rem; padding: 0.1rem 0.55rem; border-radius: 99px; }
+.insignia-lista { background: #d6f2ec; color: var(--verde-oscuro); }
+.insignia-pendiente { background: #e8ecf3; color: var(--tinta-suave); }
+
+/* ---------- Páginas de módulo ---------- */
+.caja-teoria {
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-left: 5px solid var(--verde);
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+}
+.definicion-formula { overflow-x: auto; }   /* fórmulas largas se desplazan en celular */
+
+.panel-controles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.9rem;
+  padding: 1rem;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+.panel-controles label { display: flex; flex-direction: column; gap: 0.3rem; font-weight: 600; font-size: 0.9rem; }
+.panel-controles input, .panel-controles select {
+  font: inherit; padding: 0.4rem 0.5rem; border: 1px solid var(--borde); border-radius: 6px; background: var(--papel);
+}
+.panel-controles input[type="range"] { padding: 0; accent-color: var(--verde); }
+
+.aviso-error { margin: 0.6rem 0; padding: 0.6rem 0.9rem; background: #fff1e6; border: 1px solid #f2b98c; border-radius: 8px; color: #8a3300; }
+.aviso-error:empty { display: none; }
+
+.grafica { width: 100%; height: 380px; margin-top: 1rem; background: rgba(255,255,255,0.7); border: 1px solid var(--borde); border-radius: 10px; }
+.grafica-chica { height: 300px; }
+
+.resultados {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.resultados div { background: var(--blanco); border: 1px solid var(--borde); border-radius: 8px; padding: 0.6rem 0.8rem; }
+.resultados dt { font-size: 0.85rem; color: var(--tinta-suave); }
+.resultados dd { margin: 0; font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.resultados .destacado dd { color: var(--verde-oscuro); }
+
+/* ---------- Ejemplos resueltos ---------- */
+.ejemplo { background: var(--blanco); border: 1px solid var(--borde); border-radius: 10px; padding: 1rem 1.2rem; margin: 1rem 0; }
+.ejemplo .enunciado { font-weight: 600; }
+.pasos { padding-left: 1.3rem; }
+.pasos li { margin-bottom: 0.4rem; }
+.pasos p { margin: 0.2rem 0; }
+.formula-paso { overflow-x: auto; }
+.resultado-ejemplo { padding: 0.5rem 0.8rem; background: #d6f2ec; border-radius: 6px; }
+
+/* ---------- Placeholder ---------- */
+.placeholder { text-align: center; padding: 3rem 1rem; background: var(--blanco); border: 2px dashed var(--borde); border-radius: 12px; margin-top: 1rem; }
+.placeholder p { margin-left: auto; margin-right: auto; }
+.placeholder .aviso-proximo { font-family: var(--fuente-titulos); font-size: 1.6rem; color: var(--tinta); }
+
+/* ---------- Botones y pie ---------- */
+.boton {
+  display: inline-block; padding: 0.55rem 1rem; border-radius: 8px;
+  background: var(--tinta); color: var(--blanco); text-decoration: none; font-weight: 600;
+}
+.boton:hover { background: #24365f; }
+.boton-suave { background: transparent; color: var(--tinta); border: 1px solid var(--tinta); }
+.boton-suave:hover { background: #e8ecf3; }
+#pie-navegacion { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin: 2.5rem 0 1rem; }
+.pie-pagina { text-align: center; padding: 1.5rem 1rem 2.5rem; color: var(--tinta-suave); font-size: 0.9rem; }
+
+/* ---------- Celulares y tablets ---------- */
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+  .grafica { height: 320px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
