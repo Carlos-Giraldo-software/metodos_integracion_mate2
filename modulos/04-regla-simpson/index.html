@@ -4,23 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Módulo 4: Regla de Simpson — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- Nuestros archivos. El ORDEN importa: los "ayudantes" antes que el script del módulo -->
   <script defer src="../../assets/js/modulos-data.js"></script>
   <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body data-raiz="../../" data-modulo="4">
   <header class="cabecera">
     <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
     <select id="menu-modulos" aria-label="Ir a un módulo"></select>
   </header>
+
   <main>
     <h1>Módulo 4: Regla de Simpson</h1>
-    <!-- TEMPORAL: esta página se reemplaza por el módulo completo en el siguiente lote de la Fase 2 -->
-    <section class="placeholder">
-      <p class="aviso-proximo">En desarrollo - Fase 1</p>
-      <p>Este módulo pertenece a la Fase 1 y se está construyendo.</p>
-      <a class="boton" href="../../index.html">Volver al inicio</a>
-    </section>
+
+    <h2>Idea central</h2>
+    <p>La regla de Simpson va un paso más allá: en lugar de segmentos, ajusta una <strong>parábola</strong> por cada tres puntos consecutivos $(x_{i-1},f(x_{i-1}))$, $(x_i,f(x_i))$, $(x_{i+1},f(x_{i+1}))$ y calcula el área exacta bajo esa parábola.</p>
+
+    <h2>De dónde sale la fórmula</h2>
+    <p>Para tres puntos igualmente separados por $h=\Delta x$, con alturas $y_0,y_1,y_2$, el área bajo la parábola que pasa por ellos es:</p>
+    <div class="caja-teoria definicion-formula">
+      $$\text{Área de una parábola}=\frac{h}{3}\big(y_0+4y_1+y_2\big)$$
+    </div>
+    <p>Cada parábola cubre <strong>dos</strong> subintervalos. Al sumar todas, los nodos compartidos entre parábolas vecinas aparecen dos veces (coeficiente 2) y los nodos centrales de cada parábola aparecen una vez con coeficiente 4:</p>
+    <div class="caja-teoria definicion-formula">
+      $$S_n=\frac{\Delta x}{3}\Big[f(x_0)+4f(x_1)+2f(x_2)+4f(x_3)+\cdots+2f(x_{n-2})+4f(x_{n-1})+f(x_n)\Big]$$
+    </div>
+
+    <h2>Condición: n debe ser par</h2>
+    <p>Como cada parábola usa un par de subintervalos, el número total $n$ tiene que ser <strong>par</strong>. Con $n$ impar sobraría un subintervalo sin pareja. Por eso el deslizador de abajo avanza de 2 en 2.</p>
+    <p>La regla de Simpson da el valor exacto para polinomios de grado 3 o menor.</p>
+
+    <h2>Visualizador interactivo</h2>
+    <div class="panel-controles">
+      <label>Función <select id="sel-funcion"></select></label>
+      <label>Límite a <input id="in-a" type="number" step="any"></label>
+      <label>Límite b <input id="in-b" type="number" step="any"></label>
+      <label>Subintervalos n = <span id="lbl-n">4</span>
+        <input id="rng-n" type="range" min="2" max="100" step="2" value="4">
+      </label>
+    </div>
+
+    <!-- Aquí aparecen los mensajes si el intervalo no es válido -->
+    <p id="error" class="aviso-error" role="alert"></p>
+
+    <div id="grafica" class="grafica" aria-label="Gráfica de la función y la aproximación"></div>
+
+    <dl class="resultados">
+      <div><dt>Ancho Δx</dt><dd id="res-dx">–</dd></div>
+      <div class="destacado"><dt>Simpson S<sub>n</sub></dt><dd id="res-aprox">–</dd></div>
+      <div><dt>Trapecio T<sub>n</sub> (comparación)</dt><dd id="res-trap">–</dd></div>
+      <div><dt>Valor exacto</dt><dd id="res-exacto">–</dd></div>
+      <div><dt>Error de S<sub>n</sub></dt><dd id="res-error">–</dd></div>
+      <div><dt>Error de T<sub>n</sub></dt><dd id="res-error-trap">–</dd></div>
+    </dl>
+
+    <h2>Error frente a n</h2>
+    <div id="grafica-convergencia" class="grafica grafica-chica" aria-label="Error absoluto según el número de subintervalos"></div>
+
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+
     <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
   </main>
 </body>

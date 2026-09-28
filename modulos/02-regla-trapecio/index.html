@@ -4,23 +4,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Módulo 2: Regla del Trapecio — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- Nuestros archivos. El ORDEN importa: los "ayudantes" antes que el script del módulo -->
   <script defer src="../../assets/js/modulos-data.js"></script>
   <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body data-raiz="../../" data-modulo="2">
   <header class="cabecera">
     <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
     <select id="menu-modulos" aria-label="Ir a un módulo"></select>
   </header>
+
   <main>
     <h1>Módulo 2: Regla del Trapecio</h1>
-    <!-- TEMPORAL: esta página se reemplaza por el módulo completo en el siguiente lote de la Fase 2 -->
-    <section class="placeholder">
-      <p class="aviso-proximo">En desarrollo - Fase 1</p>
-      <p>Este módulo pertenece a la Fase 1 y se está construyendo.</p>
-      <a class="boton" href="../../index.html">Volver al inicio</a>
-    </section>
+
+    <h2>Idea central</h2>
+    <p>En lugar de rectángulos, la regla del trapecio une los puntos $(x_{i-1},f(x_{i-1}))$ y $(x_i,f(x_i))$ con un segmento de recta. Cada franja queda como un trapecio, que sigue mejor la forma de la curva que un rectángulo.</p>
+
+    <h2>Justificación geométrica</h2>
+    <p>Un trapecio con bases $b_1$ y $b_2$ y altura $h$ tiene área $\tfrac{b_1+b_2}{2}\,h$. Aquí las bases son verticales, con longitudes $f(x_{i-1})$ y $f(x_i)$, y la altura es el ancho de la franja, $\Delta x$:</p>
+    <div class="caja-teoria definicion-formula">
+      $$A_i=\frac{f(x_{i-1})+f(x_i)}{2}\,\Delta x$$
+    </div>
+    <p>Al sumar las $n$ franjas, cada valor interior $f(x_i)$ aparece en dos trapecios vecinos, y por eso se cuenta dos veces:</p>
+    <div class="caja-teoria definicion-formula">
+      $$T_n=\frac{\Delta x}{2}\Big[f(x_0)+2f(x_1)+2f(x_2)+\cdots+2f(x_{n-1})+f(x_n)\Big],\qquad \Delta x=\frac{b-a}{n}$$
+    </div>
+    <p>Otra forma de verlo: $T_n=\dfrac{L_n+R_n}{2}$, el promedio de las sumas izquierda y derecha del módulo 1.</p>
+    <p>Si $f$ es cóncava hacia arriba ($f''>0$), los segmentos quedan por encima de la curva y la regla sobreestima el área. Si es cóncava hacia abajo ($f''<0$), la subestima.</p>
+
+    <h2>Visualizador interactivo</h2>
+    <div class="panel-controles">
+      <label>Función <select id="sel-funcion"></select></label>
+      <label>Límite a <input id="in-a" type="number" step="any"></label>
+      <label>Límite b <input id="in-b" type="number" step="any"></label>
+      <label>Subintervalos n = <span id="lbl-n">4</span>
+        <input id="rng-n" type="range" min="1" max="200" step="1" value="4">
+      </label>
+    </div>
+
+    <!-- Aquí aparecen los mensajes si el intervalo no es válido -->
+    <p id="error" class="aviso-error" role="alert"></p>
+
+    <div id="grafica" class="grafica" aria-label="Gráfica de la función y la aproximación"></div>
+
+    <dl class="resultados">
+      <div><dt>Ancho Δx</dt><dd id="res-dx">–</dd></div>
+      <div class="destacado"><dt>Trapecio T<sub>n</sub></dt><dd id="res-aprox">–</dd></div>
+      <div><dt>Valor exacto</dt><dd id="res-exacto">–</dd></div>
+      <div><dt>Error absoluto</dt><dd id="res-error">–</dd></div>
+      <div><dt>Error relativo</dt><dd id="res-errel">–</dd></div>
+      <div><dt>Frente al valor exacto</dt><dd id="res-signo">–</dd></div>
+    </dl>
+
+    <h2>Error frente a n</h2>
+    <div id="grafica-convergencia" class="grafica grafica-chica" aria-label="Error absoluto según el número de subintervalos"></div>
+
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+
     <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
   </main>
 </body>

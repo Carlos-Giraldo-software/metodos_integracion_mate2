@@ -10,9 +10,9 @@
 // "listo"   = true si el módulo ya está desarrollado; false si es placeholder
 window.MODULOS = [
   { n: 1,  carpeta: '01-sumas-riemann',            titulo: 'Sumas de Riemann',            fase: 1, listo: true,  resumen: 'Rectángulos izquierda, derecha y punto medio.' },
-  { n: 2,  carpeta: '02-regla-trapecio',           titulo: 'Regla del Trapecio',          fase: 1, listo: false, resumen: 'Aproximar el área con trapecios.' },
-  { n: 3,  carpeta: '03-regla-punto-medio',        titulo: 'Regla del Punto Medio',       fase: 1, listo: false, resumen: 'Rectángulos evaluados en el centro.' },
-  { n: 4,  carpeta: '04-regla-simpson',            titulo: 'Regla de Simpson',            fase: 1, listo: false, resumen: 'Parábolas ajustadas (n par).' },
+  { n: 2,  carpeta: '02-regla-trapecio',           titulo: 'Regla del Trapecio',          fase: 1, listo: true , resumen: 'Aproximar el área con trapecios.' },
+  { n: 3,  carpeta: '03-regla-punto-medio',        titulo: 'Regla del Punto Medio',       fase: 1, listo: true , resumen: 'Rectángulos evaluados en el centro.' },
+  { n: 4,  carpeta: '04-regla-simpson',            titulo: 'Regla de Simpson',            fase: 1, listo: true , resumen: 'Parábolas ajustadas (n par).' },
   { n: 5,  carpeta: '05-integral-definida',        titulo: 'Integral definida y área',    fase: 1, listo: false, resumen: 'Teorema Fundamental del Cálculo y área entre curvas.' },
   { n: 6,  carpeta: '06-integracion-directa',      titulo: 'Integración directa',         fase: 1, listo: false, resumen: 'Fórmulas básicas: f(x) y su antiderivada F(x).' },
   { n: 7,  carpeta: '07-sustitucion-potencias',    titulo: 'Sustitución / Potencias',     fase: 2, listo: false, resumen: 'Cambio de variable.' },

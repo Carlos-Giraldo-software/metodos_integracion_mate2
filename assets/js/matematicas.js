@@ -124,7 +124,18 @@
     return { x: xs, y: ys };
   }
 
+  // Formatea un número con 5 decimales para mostrarlo en pantalla.
+  function fmt(v) { return v.toFixed(5); }
+
+  // Formatea un error: si es diminuto usa notación científica (p. ej. 3.55e-15).
+  function fmtError(v) {
+    if (v === 0 || v >= 1e-5) { return v.toFixed(6); }
+    return v.toExponential(2);
+  }
+
   var Mate = {
+    fmt: fmt,
+    fmtError: fmtError,
     FUNCIONES: FUNCIONES,
     buscarFuncion: buscarFuncion,
     anchoSubintervalo: anchoSubintervalo,

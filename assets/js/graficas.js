@@ -105,6 +105,27 @@
              line: { color: COLORES.exacto, width: 2 } };
   }
 
+  // Diseño para la gráfica "error absoluto vs n" (eje vertical logarítmico).
+  // marcaN: valor de n actual, para dibujar una línea vertical punteada.
+  function disenoErrores(marcaN) {
+    return {
+      margin: { l: 60, r: 15, t: 15, b: 45 },
+      xaxis: { title: 'Número de subintervalos (n)' },
+      yaxis: { title: 'Error absoluto (escala log)', type: 'log', exponentformat: 'e' },
+      shapes: [{ type: 'line', xref: 'x', yref: 'paper', x0: marcaN, x1: marcaN, y0: 0, y1: 1,
+                 line: { color: COLORES.eje, width: 1, dash: 'dot' } }],
+      legend: { orientation: 'h', y: -0.3 },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(255,255,255,0.7)'
+    };
+  }
+
+  // Traza de puntos (marcadores) sobre la curva: sirve para mostrar nodos o puntos medios.
+  function trazaPuntos(xs, ys, nombre, color) {
+    return { x: xs, y: ys, type: 'scatter', mode: 'markers', name: nombre,
+             marker: { color: color || COLORES.exacto, size: 7 } };
+  }
+
   global.Grafica = {
     COLORES: COLORES,
     CONFIG: CONFIG,
@@ -113,6 +134,8 @@
     disenoBase: disenoBase,
     rectangulos: rectangulos,
     trapecios: trapecios,
-    trazaParabolas: trazaParabolas
+    trazaParabolas: trazaParabolas,
+    disenoErrores: disenoErrores,
+    trazaPuntos: trazaPuntos
   };
 })(typeof window !== 'undefined' ? window : globalThis);
