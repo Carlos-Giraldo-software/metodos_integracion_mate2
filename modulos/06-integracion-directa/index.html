@@ -4,23 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Módulo 6: Integración directa — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- Nuestros archivos. El ORDEN importa: los "ayudantes" antes que el script del módulo -->
   <script defer src="../../assets/js/modulos-data.js"></script>
   <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body data-raiz="../../" data-modulo="6">
   <header class="cabecera">
     <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
     <select id="menu-modulos" aria-label="Ir a un módulo"></select>
   </header>
+
   <main>
     <h1>Módulo 6: Integración directa</h1>
-    <!-- TEMPORAL: esta página se reemplaza por el módulo completo en el siguiente lote de la Fase 2 -->
-    <section class="placeholder">
-      <p class="aviso-proximo">En desarrollo - Fase 1</p>
-      <p>Este módulo pertenece a la Fase 1 y se está construyendo.</p>
-      <a class="boton" href="../../index.html">Volver al inicio</a>
-    </section>
+
+    <h2>La idea: derivar al revés</h2>
+    <p>Integrar es buscar una función $F$ cuya derivada sea la función dada $f$. A esa $F$ se le llama <strong>antiderivada</strong>. Como la derivada de una constante es cero, si $F$ sirve, también sirve $F+C$ para cualquier constante $C$. Por eso la integral indefinida se escribe con "$+C$":</p>
+    <div class="caja-teoria definicion-formula">
+      $$\int f(x)\,dx=F(x)+C\quad\Longleftrightarrow\quad F'(x)=f(x)$$
+    </div>
+    <p>La integración directa consiste en reconocer la función como una de las fórmulas básicas (o como una suma de ellas) y escribir la antiderivada. <strong>Siempre puedes verificar el resultado derivando</strong>: si $F'(x)=f(x)$, está bien.</p>
+
+    <h2>Propiedades</h2>
+    <div class="caja-teoria definicion-formula">
+      $$\int k\,f(x)\,dx=k\int f(x)\,dx\qquad\qquad \int\big[f(x)\pm g(x)\big]dx=\int f(x)\,dx\pm\int g(x)\,dx$$
+    </div>
+
+    <h2>Fórmulas básicas</h2>
+    <div class="contenedor-tabla">
+      <table class="tabla-formulas">
+        <thead><tr><th>Función</th><th>Antiderivada</th><th>Condición</th></tr></thead>
+        <tbody>
+          <tr><td>$k$ (constante)</td><td>$kx+C$</td><td></td></tr>
+          <tr><td>$x^n$</td><td>$\dfrac{x^{n+1}}{n+1}+C$</td><td>$n\ne -1$</td></tr>
+          <tr><td>$\dfrac{1}{x}$</td><td>$\ln|x|+C$</td><td>$x\ne 0$</td></tr>
+          <tr><td>$e^x$</td><td>$e^x+C$</td><td></td></tr>
+          <tr><td>$a^x$</td><td>$\dfrac{a^x}{\ln a}+C$</td><td>$a>0,\ a\ne 1$</td></tr>
+          <tr><td>$\operatorname{sen}(x)$</td><td>$-\cos(x)+C$</td><td></td></tr>
+          <tr><td>$\cos(x)$</td><td>$\operatorname{sen}(x)+C$</td><td></td></tr>
+          <tr><td>$\sec^2(x)$</td><td>$\tan(x)+C$</td><td></td></tr>
+          <tr><td>$\csc^2(x)$</td><td>$-\cot(x)+C$</td><td></td></tr>
+          <tr><td>$\sec(x)\tan(x)$</td><td>$\sec(x)+C$</td><td></td></tr>
+          <tr><td>$\csc(x)\cot(x)$</td><td>$-\csc(x)+C$</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Truco frecuente: reescribir con potencias antes de integrar, por ejemplo $\sqrt{x}=x^{1/2}$ y $\dfrac{1}{x^2}=x^{-2}$.</p>
+
+    <h2>Gráficas interactivas: f(x) y su antiderivada F(x)</h2>
+    <p>Elige una función. Arriba se ve $f(x)$; abajo, $F(x)+C$ en color fuerte y otras antiderivadas (con distinto $C$) en gris. Con el deslizador de $x_0$ se dibuja la recta tangente a $F$ en ese punto: su pendiente es exactamente $f(x_0)$.</p>
+
+    <div class="panel-controles">
+      <label>Función f <select id="sel-formula"></select></label>
+      <label>Constante C = <span id="lbl-c">0</span>
+        <input id="rng-c" type="range" min="-3" max="3" step="0.1" value="0">
+      </label>
+      <label>Punto x₀ = <span id="lbl-x0">1</span>
+        <input id="rng-x0" type="range" min="-3" max="3" step="0.01" value="1">
+      </label>
+    </div>
+
+    <div class="enunciado-vivo" id="enunciado-vivo"></div>
+
+    <div id="grafica" class="grafica grafica-chica" aria-label="Gráfica de f(x)"></div>
+    <div id="grafica-F" class="grafica" aria-label="Gráfica de la antiderivada F(x) más C"></div>
+
+    <h3>Verificación por derivación en x₀</h3>
+    <dl class="resultados">
+      <div><dt>f(x₀)</dt><dd id="res-f">–</dd></div>
+      <div><dt>F(x₀) + C</dt><dd id="res-F">–</dd></div>
+      <div class="destacado"><dt>F′(x₀) aproximada</dt><dd id="res-der">–</dd></div>
+      <div><dt>Diferencia |F′(x₀) − f(x₀)|</dt><dd id="res-dif">–</dd></div>
+    </dl>
+    <p>La derivada de $F$ se aproxima numéricamente con $\dfrac{F(x_0+h)-F(x_0-h)}{2h}$ para $h$ muy pequeño. Coincide con $f(x_0)$ (salvo un error de redondeo diminuto), sin importar el valor de $C$.</p>
+
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+
     <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
   </main>
 </body>

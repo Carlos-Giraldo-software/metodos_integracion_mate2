@@ -14,8 +14,8 @@ pensado para publicarse en **GitHub Pages**.
 | 2 | Regla del Trapecio | 1 | Desarrollado |
 | 3 | Regla del Punto Medio | 1 | Desarrollado |
 | 4 | Regla de Simpson | 1 | Desarrollado |
-| 5 | Integral definida / área bajo la curva | 1 | En construcción |
-| 6 | Integración directa | 1 | En construcción |
+| 5 | Integral definida / área bajo la curva | 1 | Desarrollado |
+| 6 | Integración directa | 1 | Desarrollado |
 | 7–10 | Sustitución/Potencias, Exponenciales, Logarítmicas, Trigonométricas | 2 | Placeholder |
 | 11–14 | Trig. inversas, Hiperbólicas inversas, Trinomio, Por partes | 3 | Placeholder |
 
@@ -36,7 +36,7 @@ calculo-integral-utp/
 │       ├── graficas.js     Datos para Plotly: curva, rectángulos, trapecios, parábolas
 │       └── katex-init.js   Renderizado de fórmulas y de los ejemplos resueltos
 ├── modulos/
-│   ├── 01-sumas-riemann/   index.html · script.js · ejemplos.js (igual en los módulos 2 a 4)
+│   ├── 01-sumas-riemann/   index.html · script.js · ejemplos.js (igual en los módulos 2 a 6)
 │   ├── ...                 (una carpeta por módulo)
 │   └── 14-integracion-por-partes/
 └── notebooks/              Prototipos en Python (Google Colab), uno por módulo 1–6

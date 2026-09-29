@@ -3,24 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Módulo 5: Integral definida y área — Cálculo Integral Interactivo</title>
+  <title>Módulo 5: Integral definida y área bajo la curva — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- Nuestros archivos. El ORDEN importa: los "ayudantes" antes que el script del módulo -->
   <script defer src="../../assets/js/modulos-data.js"></script>
   <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body data-raiz="../../" data-modulo="5">
   <header class="cabecera">
     <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
     <select id="menu-modulos" aria-label="Ir a un módulo"></select>
   </header>
+
   <main>
-    <h1>Módulo 5: Integral definida y área</h1>
-    <!-- TEMPORAL: esta página se reemplaza por el módulo completo en el siguiente lote de la Fase 2 -->
-    <section class="placeholder">
-      <p class="aviso-proximo">En desarrollo - Fase 1</p>
-      <p>Este módulo pertenece a la Fase 1 y se está construyendo.</p>
-      <a class="boton" href="../../index.html">Volver al inicio</a>
-    </section>
+    <h1>Módulo 5: Integral definida y área bajo la curva</h1>
+
+    <h2>De las sumas de Riemann a la integral definida</h2>
+    <p>Cuando el número de franjas $n$ crece sin límite, las sumas de Riemann de una función continua $f$ se acercan a un número: la <strong>integral definida</strong>.</p>
+    <div class="caja-teoria definicion-formula">
+      $$\int_a^b f(x)\,dx=\lim_{n\to\infty}\sum_{i=1}^{n} f(x_i^*)\,\Delta x$$
+    </div>
+    <p>Calcular ese límite directamente es pesado. El Teorema Fundamental del Cálculo ofrece un atajo.</p>
+
+    <h2>Teorema Fundamental del Cálculo</h2>
+    <p><strong>Parte 1.</strong> Si $f$ es continua en $[a,b]$, la función de acumulación $A(x)=\displaystyle\int_a^x f(t)\,dt$ es derivable y su derivada es la función original:</p>
+    <div class="caja-teoria definicion-formula">
+      $$A'(x)=\frac{d}{dx}\int_a^x f(t)\,dt=f(x)$$
+    </div>
+    <p><strong>Parte 2.</strong> Si $F$ es <em>cualquier</em> antiderivada de $f$ (es decir, $F'=f$), entonces:</p>
+    <div class="caja-teoria definicion-formula">
+      $$\int_a^b f(x)\,dx=F(b)-F(a)=\Big[F(x)\Big]_a^b$$
+    </div>
+    <p>La constante $C$ de la antiderivada se cancela en la resta, por eso en integrales definidas no hace falta escribirla. El teorema exige que $f$ sea continua en todo $[a,b]$: por ejemplo, $\int_{-1}^{1}\frac{1}{x}\,dx$ no se puede evaluar así, porque $1/x$ no es continua en $x=0$.</p>
+
+    <h2>Integral con signo y área</h2>
+    <p>La integral definida cuenta con signo: la parte de la curva que queda <em>debajo</em> del eje $x$ resta. El área geométrica siempre es positiva:</p>
+    <div class="caja-teoria definicion-formula">
+      $$\text{Integral}=\int_a^b f(x)\,dx\qquad\qquad \text{Área}=\int_a^b |f(x)|\,dx$$
+    </div>
+    <p>Para calcular el área a mano hay que partir el intervalo en los puntos donde $f$ cambia de signo y sumar los valores absolutos de cada tramo.</p>
+
+    <h2>Área entre dos curvas</h2>
+    <p>Si $f(x)\ge g(x)$ en todo $[a,b]$, el área encerrada entre ambas es:</p>
+    <div class="caja-teoria definicion-formula">
+      $$A=\int_a^b\big[f(x)-g(x)\big]\,dx$$
+    </div>
+    <p>Si las curvas se cruzan, se buscan los puntos de corte resolviendo $f(x)=g(x)$ y se integra la diferencia (la de arriba menos la de abajo) tramo por tramo. En general, $A=\int_a^b|f(x)-g(x)|\,dx$.</p>
+
+    <h2>Visualizador interactivo</h2>
+    <p>Elige el modo, una o dos funciones y mueve los límites $a$ y $b$. El área sombreada cambia en vivo.</p>
+
+    <div class="panel-controles">
+      <label>Modo
+        <select id="sel-modo">
+          <option value="bajo">Área bajo la curva</option>
+          <option value="entre">Área entre dos curvas</option>
+        </select>
+      </label>
+      <label>Función f <select id="sel-funcion"></select></label>
+      <label>Función g <select id="sel-g"></select></label>
+      <label>Límite a = <span id="lbl-a">0</span>
+        <input id="rng-a" type="range" min="-3" max="3" step="0.05" value="0">
+      </label>
+      <label>Límite b = <span id="lbl-b">2</span>
+        <input id="rng-b" type="range" min="-3" max="3" step="0.05" value="2">
+      </label>
+    </div>
+    <p><button id="btn-ejemplo" class="boton-accion" type="button">Cargar ejemplo: √x y x² entre 0 y 1</button></p>
+
+    <!-- Aquí aparecen los mensajes si el intervalo no es válido -->
+    <p id="error" class="aviso-error" role="alert"></p>
+
+    <div id="grafica" class="grafica" aria-label="Área sombreada entre las curvas y el eje o entre dos curvas"></div>
+
+    <dl class="resultados">
+      <div><dt id="tit-Ha">H(a)</dt><dd id="res-Ha">–</dd></div>
+      <div><dt id="tit-Hb">H(b)</dt><dd id="res-Hb">–</dd></div>
+      <div class="destacado"><dt>Integral con signo H(b) − H(a)</dt><dd id="res-int">–</dd></div>
+      <div class="destacado"><dt>Área total (numérica)</dt><dd id="res-area">–</dd></div>
+    </dl>
+    <p>Aquí $H$ es una antiderivada de $f$ (modo "bajo la curva") o de $f-g$ (modo "entre curvas"). El área total se calcula con la regla de Simpson y $n=2000$ sobre $|f-g|$, así que es una aproximación muy fina y sirve aunque las curvas se crucen.</p>
+
+    <h2>Función de acumulación</h2>
+    <p>Esta gráfica muestra $A(x)=\int_a^x\big[f(t)-g(t)\big]\,dt$ para $x$ entre $a$ y $b$. Es la Parte 1 del teorema: la pendiente de esta curva en cada punto es la altura $f(x)-g(x)$ de la gráfica de arriba. Donde la diferencia es negativa, $A$ baja.</p>
+    <div id="grafica-acum" class="grafica grafica-chica" aria-label="Función de acumulación"></div>
+
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+
     <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
   </main>
 </body>

@@ -9,6 +9,7 @@
 
   /* ---------- Catálogo de funciones que el estudiante puede elegir ----------
      texto      : nombre legible para las listas desplegables
+     vista      : ventana [xmin, xmax] recomendada para dibujar (módulos 5 y 6)
      f          : la función
      F          : una antiderivada (sirve para calcular el valor EXACTO con el
                   Teorema Fundamental del Cálculo: F(b) - F(a))
@@ -16,19 +17,21 @@
      dominioMin : el menor valor de x permitido (por ejemplo, 1/x no admite x = 0)
      a, b       : intervalo sugerido al elegir la función                        */
   var FUNCIONES = [
-    { id: 'x2', texto: 'x²',   latex: 'x^{2}',       f: function (x) { return x * x; },
+    { id: 'x1',   texto: 'x', vista: [-3, 3], latex: 'x',       f: function (x) { return x; },
+      F: function (x) { return x * x / 2; },                 dominioMin: -Infinity, a: 0, b: 2 },
+    { id: 'x2', texto: 'x²', vista: [-3, 3],   latex: 'x^{2}',       f: function (x) { return x * x; },
       F: function (x) { return Math.pow(x, 3) / 3; },        dominioMin: -Infinity, a: 0, b: 2 },
-    { id: 'x3', texto: 'x³',   latex: 'x^{3}',       f: function (x) { return x * x * x; },
+    { id: 'x3', texto: 'x³', vista: [-2, 2],   latex: 'x^{3}',       f: function (x) { return x * x * x; },
       F: function (x) { return Math.pow(x, 4) / 4; },        dominioMin: -Infinity, a: 0, b: 2 },
-    { id: 'sin', texto: 'sen(x)',  latex: '\\operatorname{sen}(x)', f: function (x) { return Math.sin(x); },
+    { id: 'sin', texto: 'sen(x)', vista: [0, 6.2832],  latex: '\\operatorname{sen}(x)', f: function (x) { return Math.sin(x); },
       F: function (x) { return -Math.cos(x); },              dominioMin: -Infinity, a: 0, b: Math.PI },
-    { id: 'cos', texto: 'cos(x)',  latex: '\\cos(x)',    f: function (x) { return Math.cos(x); },
+    { id: 'cos', texto: 'cos(x)', vista: [0, 6.2832],  latex: '\\cos(x)',    f: function (x) { return Math.cos(x); },
       F: function (x) { return Math.sin(x); },               dominioMin: -Infinity, a: 0, b: Math.PI / 2 },
-    { id: 'exp', texto: 'eˣ',  latex: 'e^{x}',       f: function (x) { return Math.exp(x); },
+    { id: 'exp', texto: 'eˣ', vista: [-2, 2],  latex: 'e^{x}',       f: function (x) { return Math.exp(x); },
       F: function (x) { return Math.exp(x); },               dominioMin: -Infinity, a: 0, b: 1 },
-    { id: 'inv', texto: '1/x',  latex: '\\dfrac{1}{x}', f: function (x) { return 1 / x; },
+    { id: 'inv', texto: '1/x', vista: [0.25, 5],  latex: '\\dfrac{1}{x}', f: function (x) { return 1 / x; },
       F: function (x) { return Math.log(x); },               dominioMin: 0, estricto: true, a: 1, b: 3 },
-    { id: 'raiz', texto: '√x', latex: '\\sqrt{x}',   f: function (x) { return Math.sqrt(x); },
+    { id: 'raiz', texto: '√x', vista: [0, 9], latex: '\\sqrt{x}',   f: function (x) { return Math.sqrt(x); },
       F: function (x) { return (2 / 3) * Math.pow(x, 1.5); }, dominioMin: 0, estricto: false, a: 0, b: 4 }
   ];
 
@@ -124,6 +127,14 @@
     return { x: xs, y: ys };
   }
 
+  // Área ENTRE dos curvas: integral de |f(x) - g(x)| calculada con Simpson y muchos subintervalos.
+  // Sirve aunque las curvas se crucen dentro del intervalo. Es una aproximación muy fina.
+  function areaEntre(f, g, a, b, n) {
+    n = n || 2000;
+    if (n % 2 !== 0) { n += 1; }
+    return simpson(function (x) { return Math.abs(f(x) - g(x)); }, a, b, n);
+  }
+
   // Formatea un número con 5 decimales para mostrarlo en pantalla.
   function fmt(v) { return v.toFixed(5); }
 
@@ -134,6 +145,7 @@
   }
 
   var Mate = {
+    areaEntre: areaEntre,
     fmt: fmt,
     fmtError: fmtError,
     FUNCIONES: FUNCIONES,

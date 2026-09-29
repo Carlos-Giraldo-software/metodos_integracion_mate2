@@ -202,3 +202,13 @@ a { color: var(--azul); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* ---------- Módulos 5 y 6: tablas de fórmulas y botones ---------- */
+.tabla-formulas { width: 100%; border-collapse: collapse; background: var(--blanco); border: 1px solid var(--borde); margin: 1rem 0; }
+.tabla-formulas th, .tabla-formulas td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--borde); text-align: left; }
+.tabla-formulas th { background: #e8f0ed; }
+.contenedor-tabla { overflow-x: auto; }
+.boton-accion { font: inherit; cursor: pointer; padding: 0.45rem 0.9rem; border-radius: 8px; border: 1px solid var(--tinta); background: transparent; color: var(--tinta); font-weight: 600; }
+.boton-accion:hover { background: #e8ecf3; }
+.enunciado-vivo { background: var(--blanco); border: 1px solid var(--borde); border-radius: 8px; padding: 0.4rem 1rem; margin-top: 1rem; overflow-x: auto; }
+.panel-controles select:disabled { opacity: 0.5; }
