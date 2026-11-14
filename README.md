@@ -16,8 +16,14 @@ pensado para publicarse en **GitHub Pages**.
 | 4 | Regla de Simpson | 1 | Desarrollado |
 | 5 | Integral definida / área bajo la curva | 1 | Desarrollado |
 | 6 | Integración directa | 1 | Desarrollado |
-| 7–10 | Sustitución/Potencias, Exponenciales, Logarítmicas, Trigonométricas | 2 | Placeholder |
-| 11–14 | Trig. inversas, Hiperbólicas inversas, Trinomio, Por partes | 3 | Placeholder |
+| 7 | Sustitución / Potencias | 2 | Desarrollado |
+| 8 | Exponenciales | 2 | Desarrollado |
+| 9 | Logarítmicas | 2 | Desarrollado |
+| 10 | Trigonométricas | 2 | Desarrollado |
+| 11 | Trigonométricas inversas | 3 | Desarrollado |
+| 12 | Hiperbólicas inversas | 3 | Desarrollado |
+| 13 | Trinomio ax² + bx + c | 3 | Desarrollado |
+| 14 | Integración por partes | 3 | Desarrollado |
 
 ## Arquitectura
 
@@ -34,12 +40,13 @@ calculo-integral-utp/
 │       ├── navegacion.js   Menú, tarjetas de la portada y botones anterior/siguiente
 │       ├── matematicas.js  Cálculo: Riemann, trapecio, punto medio, Simpson, validaciones
 │       ├── graficas.js     Datos para Plotly: curva, rectángulos, trapecios, parábolas
+│       ├── visor-integral.js Visualizador reutilizable (módulos 7 en adelante): recibe un catálogo de integrales
 │       └── katex-init.js   Renderizado de fórmulas y de los ejemplos resueltos
 ├── modulos/
 │   ├── 01-sumas-riemann/   index.html · script.js · ejemplos.js (igual en los módulos 2 a 6)
 │   ├── ...                 (una carpeta por módulo)
 │   └── 14-integracion-por-partes/
-└── notebooks/              Prototipos en Python (Google Colab), uno por módulo 1–6
+└── notebooks/              Prototipos en Python (Google Colab), uno por módulo 1–6 (ver notebooks/README.md)
 ```
 
 ### Cómo se conectan las piezas
@@ -77,6 +84,11 @@ python3 -m http.server 8000
 4. Escribe los ejemplos en `ejemplos.js` (fórmulas en LaTeX con `String.raw`).
 5. En `assets/js/modulos-data.js` cambia `listo: false` a `listo: true`.
 6. Prueba en el navegador y revisa la consola (F12) por si hay errores.
+
+### Añadir una integral al visualizador de los módulos 7 en adelante
+
+Cada módulo define en su `script.js` un `CATALOGO`. Una entrada lleva `nombre`, `latexF`, `latexI`, `f(x,p)`, `F(x,p)` (una antiderivada),
+`vista`, `a0`, `b0` y, opcionalmente, `params`, `validar`, `explicacion` y `extra`. Los detalles están en el comentario de `visor-integral.js`.
 
 ### Añadir una función al catálogo
 
