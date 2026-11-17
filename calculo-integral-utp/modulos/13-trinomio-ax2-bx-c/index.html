@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Módulo 13: Trinomio ax² + bx + c — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- El ORDEN importa: primero los ayudantes, al final el script del módulo -->
+  <script defer src="../../assets/js/modulos-data.js"></script>
+  <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="../../assets/js/visor-integral.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body data-raiz="../../" data-modulo="13">
+  <header class="cabecera">
+    <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
+    <select id="menu-modulos" aria-label="Ir a un módulo"></select>
+  </header>
+  <main>
+    <h1>Módulo 13: Trinomio ax² + bx + c</h1>
+
+    <h2>Idea central</h2>
+    <p>Cuando el integrando contiene un trinomio $ax^2+bx+c$ (en el denominador o bajo una raíz) y no hay una sustitución directa, se <strong>completa el cuadrado</strong> para llevarlo a una forma conocida de los módulos 11 y 12:</p>
+    <div class="caja-teoria definicion-formula">
+      $$ax^2+bx+c=a\left[\left(x+\frac{b}{2a}\right)^2+\frac{4ac-b^2}{4a^2}\right]$$
+    </div>
+    <p>Con $u=x+\frac{b}{2a}$ el trinomio queda como $u^2\pm k^2$ (o $k^2-u^2$), y se aplica la fórmula correspondiente. Para $\int\frac{dx}{ax^2+bx+c}$ el signo del discriminante $\Delta=b^2-4ac$ decide el resultado:</p>
+    <div class="caja-teoria definicion-formula">
+      $$\Delta<0:\ \frac{2}{\sqrt{-\Delta}}\arctan\frac{2ax+b}{\sqrt{-\Delta}}\qquad \Delta>0:\ \frac{1}{\sqrt{\Delta}}\ln\left|\frac{2ax+b-\sqrt{\Delta}}{2ax+b+\sqrt{\Delta}}\right|\qquad \Delta=0:\ -\frac{2}{2ax+b}$$
+    </div>
+    <p>Mueve $a$, $b$ y $c$ en el visualizador y observa cómo cambia la forma de la antiderivada al cruzar $\Delta=0$. Si $\Delta\ge0$, el denominador se anula en las raíces; si alguna cae dentro de $[a,b]$ la integral diverge.</p>
+    <p><strong>Pista:</strong> si el numerador es de la forma $px+q$, se separa en un múltiplo de la derivada del trinomio (que da un logaritmo) más una constante (que se integra completando el cuadrado).</p>
+
+    <h2>Visualizador interactivo</h2>
+    <p>Elige una integral, ajusta los parámetros y los límites $a$ y $b$. La gráfica de arriba sombrea el área y la de abajo muestra la antiderivada $F$: el área es $F(b)-F(a)$. La casilla "Simpson" calcula el mismo valor numéricamente como comprobación.</p>
+    <div class="panel-controles">
+      <label>Integral <select id="sel-func"></select></label>
+      <span id="params" style="display:contents"></span>
+      <label>Límite a = <span id="lbl-a">0</span><input id="rng-a" type="range"></label>
+      <label>Límite b = <span id="lbl-b">1</span><input id="rng-b" type="range"></label>
+    </div>
+    <p id="error" class="aviso-error" role="alert"></p>
+    <div class="enunciado-vivo" id="enunciado-vivo"></div>
+    <div class="caja-teoria" id="explicacion"></div>
+    <div id="grafica" class="grafica grafica-chica" aria-label="Gráfica de f(x) con el área sombreada"></div>
+    <div id="grafica-F" class="grafica grafica-chica" aria-label="Gráfica de la antiderivada F(x)"></div>
+    <dl class="resultados" id="resultados"></dl>
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+    <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
+  </main>
+</body>
+</html>

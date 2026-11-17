@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Módulo 1: Sumas de Riemann — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- Nuestros archivos. El ORDEN importa: los "ayudantes" antes que el script del módulo -->
+  <script defer src="../../assets/js/modulos-data.js"></script>
+  <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body data-raiz="../../" data-modulo="1">
+  <header class="cabecera">
+    <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
+    <select id="menu-modulos" aria-label="Ir a un módulo"></select>
+  </header>
+
+  <main>
+    <h1>Módulo 1: Sumas de Riemann</h1>
+
+    <h2>Idea central</h2>
+    <p>Para estimar el área bajo una curva $y=f(x)$ entre $a$ y $b$, dividimos el intervalo en $n$ franjas de igual ancho y sobre cada franja dibujamos un rectángulo. La suma de las áreas de los rectángulos aproxima el área buscada.</p>
+
+    <div class="caja-teoria definicion-formula">
+      <p>Ancho de cada franja y puntos de la partición:</p>
+      $$\Delta x=\frac{b-a}{n},\qquad x_i=a+i\,\Delta x\quad(i=0,1,\dots,n)$$
+    </div>
+
+    <h2>Las tres sumas</h2>
+    <p>La diferencia entre ellas es el punto donde medimos la altura del rectángulo en cada franja.</p>
+    <div class="caja-teoria definicion-formula">
+      <p><strong>Suma izquierda</strong> (altura en el extremo izquierdo):</p>
+      $$L_n=\Delta x\sum_{i=0}^{n-1} f(x_i)$$
+      <p><strong>Suma derecha</strong> (altura en el extremo derecho):</p>
+      $$R_n=\Delta x\sum_{i=1}^{n} f(x_i)$$
+      <p><strong>Suma del punto medio</strong> (altura en el centro de la franja):</p>
+      $$M_n=\Delta x\sum_{i=1}^{n} f\!\left(\frac{x_{i-1}+x_i}{2}\right)$$
+    </div>
+
+    <p>Cuando $f$ es creciente, la suma izquierda queda por debajo del área real y la derecha por encima. Si $f$ es decreciente ocurre al revés. Al hacer $n$ cada vez más grande, las tres sumas se acercan a la integral definida:</p>
+    <div class="caja-teoria definicion-formula">
+      $$\int_a^b f(x)\,dx=\lim_{n\to\infty} \sum_{i=1}^{n} f(x_i^*)\,\Delta x$$
+    </div>
+
+    <h2>Visualizador interactivo</h2>
+    <p>Elige una función, ajusta el intervalo y mueve el deslizador de $n$ para ver la convergencia.</p>
+
+    <div class="panel-controles">
+      <label>Función <select id="sel-funcion"></select></label>
+      <label>Límite a <input id="in-a" type="number" step="any"></label>
+      <label>Límite b <input id="in-b" type="number" step="any"></label>
+      <label>Tipo de suma
+        <select id="sel-tipo">
+          <option value="izq">Izquierda</option>
+          <option value="der">Derecha</option>
+          <option value="medio">Punto medio</option>
+        </select>
+      </label>
+      <label>Rectángulos n = <span id="lbl-n">8</span>
+        <input id="rng-n" type="range" min="1" max="200" value="8">
+      </label>
+    </div>
+
+    <!-- Aquí aparecen los mensajes si el intervalo no es válido -->
+    <p id="error" class="aviso-error" role="alert"></p>
+
+    <div id="grafica" class="grafica" aria-label="Gráfica de la función con los rectángulos"></div>
+
+    <dl class="resultados">
+      <div><dt>Ancho Δx</dt><dd id="res-dx">–</dd></div>
+      <div class="destacado"><dt>Aproximación</dt><dd id="res-aprox">–</dd></div>
+      <div><dt>Valor exacto</dt><dd id="res-exacto">–</dd></div>
+      <div><dt>Error absoluto</dt><dd id="res-error">–</dd></div>
+      <div><dt>Error relativo</dt><dd id="res-errel">–</dd></div>
+    </dl>
+
+    <h2>Convergencia</h2>
+    <p>Cada curva muestra el valor de la suma para $n=1,2,\dots,200$. La línea punteada vertical marca el $n$ que elegiste. La línea naranja discontinua es el valor exacto.</p>
+    <div id="grafica-convergencia" class="grafica grafica-chica" aria-label="Convergencia de las sumas al valor exacto"></div>
+
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+
+    <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
+  </main>
+</body>
+</html>
