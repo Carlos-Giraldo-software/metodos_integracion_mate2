@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Necesario para que la página se adapte a celulares y tablets -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cálculo Integral Interactivo — UTP</title>
+  <meta name="description" content="Plataforma interactiva de cálculo integral: sumas de Riemann, trapecio, punto medio, Simpson, integral definida e integración directa.">
+  <!-- KaTeX (fórmulas matemáticas), versión fijada para que nada cambie por sorpresa -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- "defer" = el script espera a que la página esté lista; se ejecutan EN ORDEN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="assets/js/modulos-data.js"></script>
+  <script defer src="assets/js/navegacion.js"></script>
+  <script defer src="assets/js/katex-init.js"></script>
+</head>
+<!-- data-raiz: ruta desde esta página hasta la carpeta principal. data-modulo: 0 = portada -->
+<body data-raiz="./" data-modulo="0">
+  <header class="cabecera">
+    <a class="marca" href="index.html">Cálculo Integral Interactivo</a>
+    <select id="menu-modulos" aria-label="Ir a un módulo"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Aprende integrales viendo cómo se construyen</h1>
+        <p class="lema">Mueve los controles, cambia el número de rectángulos y mira cómo la aproximación se acerca al área real.</p>
+        <p>$$\int_a^b f(x)\,dx = \lim_{n\to\infty} \sum_{i=1}^{n} f(x_i)\,\Delta x$$</p>
+        <a class="boton" href="modulos/01-sumas-riemann/index.html">Empezar con las sumas de Riemann</a>
+      </div>
+      <svg viewBox="0 0 400 260" role="img" aria-label="Curva y = x al cuadrado con ocho rectángulos bajo ella">
+    <line x1="30" y1="230" x2="390" y2="230" stroke="#14213d" stroke-width="1.5"/>
+    <line x1="30" y1="230" x2="30" y2="10" stroke="#14213d" stroke-width="1.5"/>
+    <rect x="30.0" y="230.0" width="42.5" height="0.0" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="72.5" y="227.0" width="42.5" height="3.0" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="115.0" y="218.1" width="42.5" height="11.9" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="157.5" y="203.3" width="42.5" height="26.7" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="200.0" y="182.5" width="42.5" height="47.5" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="242.5" y="155.8" width="42.5" height="74.2" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="285.0" y="123.1" width="42.5" height="106.9" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <rect x="327.5" y="84.5" width="42.5" height="145.5" fill="rgba(15,157,138,0.30)" stroke="#0b7a6b" stroke-width="1.2"/>
+    <polyline points="30.0,230.0 35.7,229.9 41.3,229.8 47.0,229.5 52.7,229.2 58.3,228.7 64.0,228.1 69.7,227.4 75.3,226.6 81.0,225.7 86.7,224.7 92.3,223.6 98.0,222.4 103.7,221.1 109.3,219.7 115.0,218.1 120.7,216.5 126.3,214.7 132.0,212.9 137.7,210.9 143.3,208.9 149.0,206.7 154.7,204.5 160.3,202.1 166.0,199.6 171.7,197.0 177.3,194.3 183.0,191.5 188.7,188.6 194.3,185.6 200.0,182.5 205.7,179.3 211.3,176.0 217.0,172.5 222.7,169.0 228.3,165.3 234.0,161.6 239.7,157.7 245.3,153.8 251.0,149.7 256.7,145.6 262.3,141.3 268.0,136.9 273.7,132.4 279.3,127.8 285.0,123.1 290.7,118.3 296.3,113.4 302.0,108.4 307.7,103.3 313.3,98.1 319.0,92.7 324.7,87.3 330.3,81.7 336.0,76.1 341.7,70.3 347.3,64.5 353.0,58.5 358.7,52.5 364.3,46.3 370.0,40.0" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+  </svg>
+    </section>
+
+    <h2>Los 14 módulos</h2>
+    <p>Los módulos 1 a 6 ya están disponibles (Fase 1). Los demás se publicarán en las fases siguientes.</p>
+    <!-- navegacion.js llena esta rejilla con las 14 tarjetas -->
+    <div class="rejilla" id="rejilla-modulos"></div>
+  </main>
+
+  <footer class="pie-pagina">Universidad Tecnológica de Pereira · Departamento de Matemáticas · Matemáticas II</footer>
+</body>
+</html>
