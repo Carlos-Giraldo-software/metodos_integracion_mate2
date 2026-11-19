@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Módulo 8: Exponenciales — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- El ORDEN importa: primero los ayudantes, al final el script del módulo -->
+  <script defer src="../../assets/js/modulos-data.js"></script>
+  <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="../../assets/js/visor-integral.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body data-raiz="../../" data-modulo="8">
+  <header class="cabecera">
+    <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
+    <select id="menu-modulos" aria-label="Ir a un módulo"></select>
+  </header>
+  <main>
+    <h1>Módulo 8: Exponenciales</h1>
+
+    <h2>Idea central</h2>
+    <p>La exponencial $e^x$ es su propia derivada, y por eso también es su propia antiderivada. Para otras bases o exponentes lineales se ajusta con la regla de la cadena (es una sustitución $u=kx$):</p>
+    <div class="caja-teoria definicion-formula">
+      $$\int e^{x}\,dx=e^{x}+C\qquad \int e^{kx}\,dx=\frac{e^{kx}}{k}+C\ (k\ne0)\qquad \int a^{x}\,dx=\frac{a^{x}}{\ln a}+C\ (a>0,\ a\ne1)$$
+    </div>
+    <p>Fíjate en lo que cambia la constante $k$: si $|k|$ es grande, la curva crece o decae más rápido, y el área bajo ella se divide entre $k$. Con $k<0$ la función decae y la integral sobre $[a,b]$ sigue siendo positiva si $A>0$.</p>
+    <p>Verifica siempre derivando: $\dfrac{d}{dx}\dfrac{e^{kx}}{k}=e^{kx}$.</p>
+
+    <h2>Visualizador interactivo</h2>
+    <p>Elige una integral, ajusta los parámetros y los límites $a$ y $b$. La gráfica de arriba sombrea el área y la de abajo muestra la antiderivada $F$: el área es $F(b)-F(a)$. La casilla "Simpson" calcula el mismo valor numéricamente como comprobación.</p>
+    <div class="panel-controles">
+      <label>Integral <select id="sel-func"></select></label>
+      <span id="params" style="display:contents"></span>
+      <label>Límite a = <span id="lbl-a">0</span><input id="rng-a" type="range"></label>
+      <label>Límite b = <span id="lbl-b">1</span><input id="rng-b" type="range"></label>
+    </div>
+    <p id="error" class="aviso-error" role="alert"></p>
+    <div class="enunciado-vivo" id="enunciado-vivo"></div>
+    <div class="caja-teoria" id="explicacion"></div>
+    <div id="grafica" class="grafica grafica-chica" aria-label="Gráfica de f(x) con el área sombreada"></div>
+    <div id="grafica-F" class="grafica grafica-chica" aria-label="Gráfica de la antiderivada F(x)"></div>
+    <dl class="resultados" id="resultados"></dl>
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+    <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
+  </main>
+</body>
+</html>

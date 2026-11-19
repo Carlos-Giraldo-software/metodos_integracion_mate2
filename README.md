@@ -24,6 +24,9 @@ pensado para publicarse en **GitHub Pages**.
 | 12 | Hiperbólicas inversas | 3 | Desarrollado |
 | 13 | Trinomio ax² + bx + c | 3 | Desarrollado |
 | 14 | Integración por partes | 3 | Desarrollado |
+| 15 | Sólidos con secciones transversales conocidas | Ampliación | Desarrollado |
+| 16 | Sólidos de revolución: discos y arandelas | Ampliación | Desarrollado |
+| 17 | Sólidos de revolución: capas cilíndricas | Ampliación | Desarrollado |
 
 ## Arquitectura
 
@@ -40,7 +43,8 @@ calculo-integral-utp/
 │       ├── navegacion.js   Menú, tarjetas de la portada y botones anterior/siguiente
 │       ├── matematicas.js  Cálculo: Riemann, trapecio, punto medio, Simpson, validaciones
 │       ├── graficas.js     Datos para Plotly: curva, rectángulos, trapecios, parábolas
-│       ├── visor-integral.js Visualizador reutilizable (módulos 7 en adelante): recibe un catálogo de integrales
+│       ├── visor-integral.js Visualizador reutilizable (módulos 7 a 14): recibe un catálogo de integrales
+│       ├── visor-solidos.js  Visualizador 3D de sólidos (módulos 15 a 17): secciones, arandelas y capas
 │       └── katex-init.js   Renderizado de fórmulas y de los ejemplos resueltos
 ├── modulos/
 │   ├── 01-sumas-riemann/   index.html · script.js · ejemplos.js (igual en los módulos 2 a 6)
@@ -89,6 +93,11 @@ python3 -m http.server 8000
 
 Cada módulo define en su `script.js` un `CATALOGO`. Una entrada lleva `nombre`, `latexF`, `latexI`, `f(x,p)`, `F(x,p)` (una antiderivada),
 `vista`, `a0`, `b0` y, opcionalmente, `params`, `validar`, `explicacion` y `extra`. Los detalles están en el comentario de `visor-integral.js`.
+
+### Añadir una región al visualizador de sólidos
+
+En `assets/js/visor-solidos.js`, agrega un objeto a `REGIONES` con `texto`, `lf` y `lg` (LaTeX de $f$ y $g$), las funciones `f` (arriba) y `g` (abajo)
+y el intervalo máximo `a0`, `b0`. Debe cumplirse $f\ge g$ en todo el intervalo.
 
 ### Añadir una función al catálogo
 
