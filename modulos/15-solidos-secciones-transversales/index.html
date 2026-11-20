@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Módulo 15: Sólidos con secciones transversales conocidas — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- El ORDEN importa: primero los ayudantes, al final el script del módulo -->
+  <script defer src="../../assets/js/modulos-data.js"></script>
+  <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="../../assets/js/visor-solidos.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body data-raiz="../../" data-modulo="15">
+  <header class="cabecera">
+    <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
+    <select id="menu-modulos" aria-label="Ir a un módulo"></select>
+  </header>
+  <main>
+    <h1>Módulo 15: Sólidos con secciones transversales conocidas</h1>
+
+    <h2>Idea central: construir un sólido con rebanadas</h2>
+    <p>Imagina cortar un sólido en rebanadas muy delgadas perpendiculares al eje $x$. Una rebanada en la posición $x$ tiene área $A(x)$ y espesor $\Delta x$, así que su volumen es aproximadamente $A(x)\,\Delta x$. Sumando todas y haciendo $n\to\infty$ aparece una integral:</p>
+    <div class="caja-teoria definicion-formula">
+      $$V=\lim_{n\to\infty}\sum_{i=1}^{n}A(x_i^*)\,\Delta x=\int_a^b A(x)\,dx$$
+    </div>
+    <p>Para usarla necesitas dos cosas: (1) una región plana base, entre $y=g(x)$ y $y=f(x)$, y (2) la forma de cada sección, que se construye sobre el segmento de longitud $s(x)=f(x)-g(x)$. En el visualizador, ese segmento es la base de cada sección y su altura crece en el eje $z$.</p>
+    <div class="caja-teoria definicion-formula">
+      $$\begin{array}{lll}\text{Cuadrado de lado }s: & A=s^2 & \\ \text{Semicírculo de diámetro }s: & A=\tfrac{\pi}{8}s^2 & \\ \text{Triángulo equilátero de lado }s: & A=\tfrac{\sqrt3}{4}s^2 & \\ \text{Rectángulo de altura }m\,s: & A=m\,s^2 & \end{array}$$
+    </div>
+    <p><strong>Método.</strong> (1) Dibuja la región y un segmento típico. (2) Expresa $s(x)$. (3) Escribe $A(x)$ según la forma. (4) Integra de $a$ a $b$. (5) Comprueba el signo y las unidades (volumen = unidades cúbicas).</p>
+
+    <h2>Construye el sólido</h2>
+    <p>Elige la región plana, ajusta los límites y observa cómo se arma el sólido en 3D (puedes girarlo con el ratón o el dedo). La pieza naranja es el rebanada típico en $x_0$. Debajo de la gráfica, el volumen exacto por integración se compara con la suma de los $n$ elementos.</p>
+    <div class="panel-controles">
+      <label>Región <select id="sel-region"></select></label>
+      <label>Límite a = <span id="lbl-a">0</span><input id="rng-a" type="range"></label>
+      <label>Límite b = <span id="lbl-b">1</span><input id="rng-b" type="range"></label>
+      <span style="display:none"><span id="lbl-k"></span><input id="rng-k" type="range" min="-4" max="6" step="0.25" value="0"></span>
+      <label data-modos="secciones">Forma de la sección
+        <select id="sel-seccion"><option value="cuadrado">Cuadrado</option><option value="semicirculo">Semicírculo</option>
+          <option value="triangulo">Triángulo equilátero</option><option value="rectangulo">Rectángulo de altura m·s</option></select></label>
+      <label data-modos="secciones">Altura m = <span id="lbl-m">1</span><input id="rng-m" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+      <label data-modos="arandelas capas">Giro (grados) = <span id="lbl-ang">300</span><input id="rng-ang" type="range" min="30" max="360" step="15" value="300"></label>
+      <label>Número de rebanadas n = <span id="lbl-n">10</span><input id="rng-n" type="range" min="1" max="60" step="1" value="10"></label>
+      <label>Posición x₀ = <span id="lbl-x0">0</span><input id="rng-x0" type="range" value="0.5"></label>
+    </div>
+    <p id="error" class="aviso-error" role="alert"></p>
+    <div class="enunciado-vivo" id="enunciado-vivo"></div>
+    <div id="grafica3d" class="grafica grafica-3d" aria-label="Sólido en tres dimensiones"></div>
+    <div id="grafica2d" class="grafica grafica-chica" aria-label="Región plana en el plano xy"></div>
+    <dl class="resultados" id="resultados"></dl>
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+    <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
+  </main>
+</body>
+</html>

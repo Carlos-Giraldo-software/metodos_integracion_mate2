@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Módulo 16: Sólidos de revolución: discos y arandelas — Cálculo Integral Interactivo</title>
+  <!-- KaTeX y Plotly con versión fija (verificadas como existentes en npm/jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <!-- El ORDEN importa: primero los ayudantes, al final el script del módulo -->
+  <script defer src="../../assets/js/modulos-data.js"></script>
+  <script defer src="../../assets/js/navegacion.js"></script>
+  <script defer src="../../assets/js/matematicas.js"></script>
+  <script defer src="../../assets/js/graficas.js"></script>
+  <script defer src="../../assets/js/katex-init.js"></script>
+  <script defer src="../../assets/js/visor-solidos.js"></script>
+  <script defer src="ejemplos.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body data-raiz="../../" data-modulo="16">
+  <header class="cabecera">
+    <a class="marca" href="../../index.html">Cálculo Integral Interactivo</a>
+    <select id="menu-modulos" aria-label="Ir a un módulo"></select>
+  </header>
+  <main>
+    <h1>Módulo 16: Sólidos de revolución: discos y arandelas</h1>
+
+    <h2>Idea central: girar una región</h2>
+    <p>Si giras una región plana alrededor de una recta (el <strong>eje de giro</strong>), obtienes un sólido de revolución. Si cortas ese sólido perpendicularmente al eje, cada rebanada es un <strong>disco</strong> (o una <strong>arandela</strong>, un disco con un hueco). Su área es la de un círculo, y esa área es el $A(x)$ del módulo anterior.</p>
+    <div class="caja-teoria definicion-formula">
+      $$\text{Discos: } V=\pi\int_a^b R(x)^2\,dx\qquad\qquad \text{Arandelas: } V=\pi\int_a^b\Big[R(x)^2-r(x)^2\Big]dx$$
+    </div>
+    <p>Aquí $R$ es el <strong>radio exterior</strong> (distancia del eje al borde más lejano de la región) y $r$ el <strong>radio interior</strong> (distancia al borde más cercano). Si la región toca el eje, $r=0$ y quedan discos.</p>
+    <p><strong>Eje horizontal $y=k$.</strong> Si el eje está por debajo de la región ($k\le g$): $R=f-k$ y $r=g-k$. Si está por encima ($k\ge f$): $R=k-g$ y $r=k-f$. El visualizador exige que el eje no atraviese la región, porque en ese caso el sólido se solapa y la fórmula cambia.</p>
+    <p><strong>Método.</strong> (1) Dibuja la región, el eje y un rectángulo típico perpendicular al eje. (2) Identifica $R(x)$ y $r(x)$. (3) Escribe $\pi(R^2-r^2)$. (4) Integra. Con el deslizador de giro puedes ver cómo se "barre" el sólido.</p>
+
+    <h2>Construye el sólido</h2>
+    <p>Elige la región plana, ajusta los límites y observa cómo se arma el sólido en 3D (puedes girarlo con el ratón o el dedo). La pieza naranja es el arandela típico en $x_0$. Debajo de la gráfica, el volumen exacto por integración se compara con la suma de los $n$ elementos.</p>
+    <div class="panel-controles">
+      <label>Región <select id="sel-region"></select></label>
+      <label>Límite a = <span id="lbl-a">0</span><input id="rng-a" type="range"></label>
+      <label>Límite b = <span id="lbl-b">1</span><input id="rng-b" type="range"></label>
+      <label data-modos="arandelas capas">Eje de giro y = k = <span id="lbl-k">0</span><input id="rng-k" type="range" min="-4" max="6" step="0.25" value="0"></label>
+      <label data-modos="secciones">Forma de la sección
+        <select id="sel-seccion"><option value="cuadrado">Cuadrado</option><option value="semicirculo">Semicírculo</option>
+          <option value="triangulo">Triángulo equilátero</option><option value="rectangulo">Rectángulo de altura m·s</option></select></label>
+      <label data-modos="secciones">Altura m = <span id="lbl-m">1</span><input id="rng-m" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+      <label data-modos="arandelas capas">Giro (grados) = <span id="lbl-ang">300</span><input id="rng-ang" type="range" min="30" max="360" step="15" value="300"></label>
+      <label>Número de arandelas n = <span id="lbl-n">10</span><input id="rng-n" type="range" min="1" max="60" step="1" value="10"></label>
+      <label>Posición x₀ = <span id="lbl-x0">0</span><input id="rng-x0" type="range" value="0.5"></label>
+    </div>
+    <p id="error" class="aviso-error" role="alert"></p>
+    <div class="enunciado-vivo" id="enunciado-vivo"></div>
+    <div id="grafica3d" class="grafica grafica-3d" aria-label="Sólido en tres dimensiones"></div>
+    <div id="grafica2d" class="grafica grafica-chica" aria-label="Región plana en el plano xy"></div>
+    <dl class="resultados" id="resultados"></dl>
+    <h2>Ejemplos resueltos</h2>
+    <div id="ejemplos"></div>
+    <nav id="pie-navegacion" aria-label="Módulos vecinos"></nav>
+  </main>
+</body>
+</html>
